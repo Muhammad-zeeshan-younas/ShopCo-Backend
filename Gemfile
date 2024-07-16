@@ -10,8 +10,9 @@ gem "sprockets-rails"
 gem 'faker', '~> 2.18'
 gem 'bcrypt', '~> 3.1.13'
 gem 'rack-cors'
+gem "image_processing", ">= 1.2"
 gem 'blueprinter'
-
+gem 'redis'
 
 
 # Use sqlite3 as the database for Active Record
