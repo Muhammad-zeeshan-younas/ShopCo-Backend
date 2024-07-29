@@ -7,6 +7,7 @@ class CreateProducts < ActiveRecord::Migration[7.1]
       t.integer :stock_quantity, default: 0
       t.string :category, null: false
       t.string :sku, null: false
+      t.decimal :rating, precision: 5, scale: 2, default: 0.0, null: false
       t.timestamps
     end
     add_index :products, :sku, unique: true

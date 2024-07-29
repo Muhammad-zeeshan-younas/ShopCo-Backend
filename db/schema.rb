@@ -46,6 +46,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_10_220542) do
     t.integer "stock_quantity", default: 0
     t.string "category", null: false
     t.string "sku", null: false
+    t.decimal "rating", precision: 5, scale: 2, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["sku"], name: "index_products_on_sku", unique: true

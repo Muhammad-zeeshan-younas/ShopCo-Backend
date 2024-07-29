@@ -3,7 +3,7 @@
 class ProductBlueprint < Blueprinter::Base
   identifier :id
 
-  fields :name, :description, :price, :stock_quantity, :category, :sku, :created_at, :updated_at
+  fields :name, :description, :price, :stock_quantity, :category, :sku, :created_at, :updated_at, :rating
 
   field :images do |product, options|
     if product.images.attached?

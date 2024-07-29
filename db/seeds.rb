@@ -6,7 +6,7 @@ Review.destroy_all
 # Number of records to create
 num_users = 10
 num_products = 20
-num_images_per_product = 5
+num_images_per_product = 4
 num_reviews_per_product = 3
 
 # Generate users with avatars
@@ -33,7 +33,7 @@ num_products.times do
     price: Faker::Commerce.price(range: 1.0..100.0),
     stock_quantity: Faker::Number.between(from: 1, to: 100),
     category: Faker::Commerce.department,
-    sku: Faker::Alphanumeric.unique.alphanumeric(number: 10)
+    sku: Faker::Alphanumeric.unique.alphanumeric(number: 10),
   )
 
   # Attach multiple images to the product
