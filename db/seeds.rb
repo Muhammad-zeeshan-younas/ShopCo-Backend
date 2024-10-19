@@ -12,16 +12,16 @@ num_reviews_per_product = 3
 # Generate users with avatars
 num_users.times do
   user = User.create!(
-    name: Faker::Name.name,
+    username: Faker::Name.name,
     email: Faker::Internet.email,
     address: Faker::Address.full_address,
     phone: Faker::PhoneNumber.phone_number,
-    password_digest: BCrypt::Password.create('password')
+    password: BCrypt::Password.create('password')
   )
 
   # Attach an avatar to the user
   avatar_url = Faker::Avatar.image
-  user.avatar.attach(io: URI.open(avatar_url), filename: "#{user.name}_avatar.jpg")
+  user.avatar.attach(io: URI.open(avatar_url), filename: "#{user.username}_avatar.jpg")
 end
 
 # Generate products with images

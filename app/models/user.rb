@@ -1,9 +1,14 @@
 class User < ApplicationRecord
+            # Include default devise modules.
+            devise :database_authenticatable, :registerable,
+                    :recoverable, :rememberable, :trackable, :validatable,
+                    :omniauthable
+            include DeviseTokenAuth::Concerns::User
   has_many :testimonials
   has_many :reviews
   has_one_attached :avatar
   
-  validates :name, presence: true
+  validates :username, presence: true
   validates :email, presence: true, uniqueness: true
   validates :address, presence: true
   validates :phone, presence: true

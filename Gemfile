@@ -1,12 +1,16 @@
 source "https://rubygems.org"
 
-ruby "3.3.4"
+ruby "3.3.1"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.3", ">= 7.1.3.2"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
+gem 'devise'
+gem 'devise_token_auth'
+gem 'omniauth'
+gem 'phonelib'
 gem 'faker', '~> 2.18'
 gem 'bcrypt', '~> 3.1.13'
 gem 'rack-cors'

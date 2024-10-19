@@ -1,7 +1,7 @@
 class UserBlueprint < Blueprinter::Base
   identifier :id
 
-  fields :name, :email, :address, :phone
+  fields :username, :email, :address, :phone
 
   field :avatar do |user, options|
     if user.avatar.attached?
