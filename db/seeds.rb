@@ -20,8 +20,6 @@ num_users.times do
   )
 
   # Attach an avatar to the user
-  avatar_url = Faker::Avatar.image
-  user.avatar.attach(io: URI.open(avatar_url), filename: "#{user.username}_avatar.jpg")
 end
 
 # Generate products with images
@@ -37,12 +35,9 @@ num_products.times do
   )
 
   # Attach multiple images to the product
-  num_images_per_product.times do
-    image_url = Faker::LoremFlickr.image
-    product.images.attach(io: URI.open(image_url), filename: "#{product.name}_image.jpg")
-  end
+ 
 
-  products << product
+
 end
 
 # Generate reviews for products

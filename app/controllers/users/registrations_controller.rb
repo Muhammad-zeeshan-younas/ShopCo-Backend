@@ -1,8 +1,9 @@
 class Users::RegistrationsController < DeviseTokenAuth::RegistrationsController
     def create
+      
       super do |resource|
-        if params[:file].present?
-          resource.file.attach(params[:file]) # Attach the file to the user
+        if params[:avatar].present?
+          resource.avatar.attach(params[:avatar]) # Attach the file to the user
         end
       end
     rescue ActiveRecord::RecordNotUnique
@@ -21,6 +22,10 @@ class Users::RegistrationsController < DeviseTokenAuth::RegistrationsController
     end
 
     def render_update_success
+      render json: { user: UserBlueprint.render_as_json(@resource) }, status: :ok
+    end
+    
+    def render_create_success
       render json: { user: UserBlueprint.render_as_json(@resource) }, status: :ok
     end
   end
