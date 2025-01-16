@@ -9,6 +9,7 @@ gem "rails", "~> 7.1.3", ">= 7.1.3.2"
 gem "sprockets-rails"
 gem 'devise'
 gem 'devise_token_auth'
+gem 'devise-jwt'
 gem 'omniauth'
 gem 'phonelib'
 gem 'faker', '~> 2.18'
@@ -33,6 +34,7 @@ gem "importmap-rails"
 gem "turbo-rails"
 gem 'byebug', group: :development
 gem 'mini_magick'
+gem 'kaminari'
 
 
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]

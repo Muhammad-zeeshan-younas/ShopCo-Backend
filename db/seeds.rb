@@ -18,8 +18,6 @@ num_users.times do
     phone: Faker::PhoneNumber.phone_number,
     password: BCrypt::Password.create('password')
   )
-
-  # Attach an avatar to the user
 end
 
 # Generate products with images
@@ -34,10 +32,7 @@ num_products.times do
     sku: Faker::Alphanumeric.unique.alphanumeric(number: 10),
   )
 
-  # Attach multiple images to the product
- 
-
-
+  products << product
 end
 
 # Generate reviews for products

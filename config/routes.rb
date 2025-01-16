@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   }
   
   
-  resources :products, except: [:edit, :new]
+  resources :products, except: [:edit, :new] do
+     get 'product-reviews', to: 'reviews#product_reviews'
+  end
   resources :reviews, except: [:edit, :new]
 end

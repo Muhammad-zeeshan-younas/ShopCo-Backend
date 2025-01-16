@@ -15,4 +15,5 @@ class ProductBlueprint < Blueprinter::Base
     end
   end
 
+  association :reviews, blueprint: ReviewBlueprint
 end
