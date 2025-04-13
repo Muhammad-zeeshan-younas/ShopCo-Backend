@@ -1,9 +1,9 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  pool: 5
+  database: shopco_development
   username: postgres
-  password: root
+  password: password
   host: localhost
 
 development:

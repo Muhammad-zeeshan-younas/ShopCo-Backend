@@ -31,7 +31,7 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[7.1]
       ## User Info
 
       ## Tokens
-      t.text :tokens
+      t.json :tokens
     end
 
     add_index :users, [:uid, :provider],     unique: true

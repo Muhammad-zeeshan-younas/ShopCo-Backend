@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "3.3.1"
+ruby "3.4.1"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.3", ">= 7.1.3.2"
@@ -9,10 +9,11 @@ gem "rails", "~> 7.1.3", ">= 7.1.3.2"
 gem "sprockets-rails"
 gem 'devise'
 gem 'devise_token_auth'
-gem 'devise-jwt'
 gem 'omniauth'
 gem 'phonelib'
 gem 'faker', '~> 2.18'
+gem "byebug"
+gem 'ostruct'
 gem 'bcrypt', '~> 3.1.13'
 gem 'rack-cors'
 gem "image_processing", ">= 1.2"

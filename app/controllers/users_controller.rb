@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
-  has_secure_password
+  before_action :authenticate_user!
 
-  has_many :reviews
+  def index
+    render json: UserBlueprint.render_as_json(User.find(current_user.id))
+  end
 end
