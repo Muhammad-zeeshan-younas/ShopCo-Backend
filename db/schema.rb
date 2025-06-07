@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_04_121227) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_14_200357) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,46 +42,40 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_04_121227) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "product_variants", force: :cascade do |t|
+  create_table "order_items", force: :cascade do |t|
+    t.bigint "order_id", null: false
     t.bigint "product_id", null: false
-    t.string "name"
-    t.string "sku_suffix"
-    t.decimal "price_adjustment", precision: 10, scale: 2, default: "0.0"
-    t.integer "stock_quantity", default: 0
+    t.bigint "variant_id"
+    t.integer "quantity", null: false
+    t.decimal "unit_price", precision: 10, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["product_id"], name: "index_product_variants_on_product_id"
+    t.index ["order_id", "product_id", "variant_id"], name: "index_order_items_on_order_product_variant", unique: true
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["product_id"], name: "index_order_items_on_product_id"
+    t.index ["variant_id"], name: "index_order_items_on_variant_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "status", default: 0
+    t.bigint "user_id", null: false
+    t.decimal "total", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "products", force: :cascade do |t|
     t.string "name", null: false
-    t.text "description"
-    t.decimal "price", precision: 10, scale: 2, null: false
+    t.text "description", null: false
+    t.decimal "base_price", precision: 10, scale: 2, null: false
     t.string "category", null: false
     t.string "sku", null: false
     t.decimal "rating", precision: 3, scale: 2, default: "0.0"
-    t.integer "stock_quantity", default: 0
-    t.boolean "in_stock", default: true
-    t.integer "low_stock_threshold", default: 5
-    t.boolean "is_new", default: false
-    t.boolean "is_top_seller", default: false
-    t.boolean "is_discounted", default: false
-    t.decimal "original_price", precision: 10, scale: 2
     t.decimal "discount_percentage", precision: 5, scale: 2
-    t.decimal "weight", precision: 8, scale: 2
-    t.string "weight_unit", default: "g"
-    t.string "slug", null: false
-    t.string "meta_title"
-    t.text "meta_description"
-    t.integer "position"
+    t.boolean "featured", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["category"], name: "index_products_on_category"
-    t.index ["is_discounted"], name: "index_products_on_is_discounted"
-    t.index ["is_new"], name: "index_products_on_is_new"
-    t.index ["is_top_seller"], name: "index_products_on_is_top_seller"
-    t.index ["sku"], name: "index_products_on_sku", unique: true
-    t.index ["slug"], name: "index_products_on_slug", unique: true
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -125,20 +119,25 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_04_121227) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
-  create_table "variant_options", force: :cascade do |t|
-    t.bigint "variant_id", null: false
-    t.string "option_type", null: false
-    t.string "value", null: false
+  create_table "variants", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.string "size", null: false
+    t.string "color", null: false
+    t.string "sku_suffix", null: false
+    t.decimal "price_adjustment", default: "0.0"
+    t.integer "stock_quantity", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["variant_id", "option_type"], name: "index_variant_options_on_variant_id_and_option_type", unique: true
-    t.index ["variant_id"], name: "index_variant_options_on_variant_id"
+    t.index ["product_id"], name: "index_variants_on_product_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "product_variants", "products"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "products"
+  add_foreign_key "order_items", "variants"
+  add_foreign_key "orders", "users"
   add_foreign_key "reviews", "products"
   add_foreign_key "reviews", "users"
-  add_foreign_key "variant_options", "product_variants", column: "variant_id"
+  add_foreign_key "variants", "products"
 end

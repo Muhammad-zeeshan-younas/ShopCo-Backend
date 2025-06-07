@@ -12,15 +12,15 @@ gem 'devise_token_auth'
 gem 'omniauth'
 gem 'phonelib'
 gem 'faker', '~> 2.18'
-gem "byebug"
 gem 'ostruct'
 gem 'bcrypt', '~> 3.1.13'
 gem 'rack-cors'
 gem "image_processing", ">= 1.2"
 gem 'blueprinter'
 gem 'redis'
+gem 'rubocop'
 
-
+gem 'ruby-lsp'
 # Use sqlite3 as the database for Active Record'gem 'pg', '~> 1.4'
 gem 'pg', '~> 1.4'
 

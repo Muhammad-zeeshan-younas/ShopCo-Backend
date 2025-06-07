@@ -4,20 +4,22 @@ class ProductsController < ApplicationController
 
   # GET /products
   def index
-    @products = Product.includes(:variants, variants: :options)
+    @products = Product.with_attached_images
+    .includes(:variants)
+    .order(created_at: :desc)
     
-    # Add filters for special product types
-    @products = @products.where(is_new: true) if params[:new].present?
-    @products = @products.where(is_top_seller: true) if params[:top_seller].present?
-    @products = @products.where(is_discounted: true) if params[:discounted].present?
-  @products = @products.where(category: params[:category]) if params[:category].present?
-    
-    render json: ProductBlueprint.render(@products, view: :extended)
+    # Filtering examples
+    @products = @products.where(category: params[:category]) if params[:category]
+    @products = @products.where(featured: true) if params[:featured]
+    @products = @products.where("base_price <= ?", params[:max_price]) if params[:max_price]
+
+    render json: ProductBlueprint.render(@products, root: :products)
   end
+
 
   # GET /products/1
   def show
-    render json: ProductBlueprint.render(@product, view: :detailed)
+    render json: ProductBlueprint.render(@product)
   end
 
   # POST /products

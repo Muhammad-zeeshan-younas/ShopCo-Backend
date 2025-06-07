@@ -1,11 +1,31 @@
 class ProductBlueprint < Blueprinter::Base
-  identifier :sku  # Changed from :id to :sku since we're using SKU as the primary identifier
+  identifier :id
 
-  fields :name, :description, :price, :stock_quantity, :category, 
-         :rating, :weight, :weight_unit, :is_new, :is_top_seller, 
-         :is_discounted, :original_price, :discount_percentage,
-         :meta_title, :meta_description, :position, :low_stock_threshold,
-         :in_stock, :created_at, :updated_at
+  fields :name, :description, :base_price, :category, :sku, 
+         :discount_percentage, :featured, :created_at, :rating
+
+  # Calculated fields
+  field :discounted_price do |product|
+    product.discounted_price
+  end
+
+  field :in_stock do |product|
+    product.in_stock?
+  end
+
+  field :total_stock do |product|
+    product.total_stock
+  end
+  
+  field :is_new do |product|
+    # You can either use the stored is_new flag or calculate dynamically
+    if product.respond_to?(:is_new)
+      product.is_new
+    else
+      # Example: consider products created in last 7 days as new
+      product.created_at > 7.days.ago
+    end
+  end
 
   # Image handling
   field :images do |product, options|
@@ -22,40 +42,6 @@ class ProductBlueprint < Blueprinter::Base
     end
   end
 
-  # Calculated fields
-  field :final_price do |product, options|
-    if product.is_discounted && product.original_price.present?
-      product.price  # price already reflects discount
-    else
-      product.price
-    end
-  end
-
-  field :discount_amount do |product, options|
-    if product.is_discounted && product.original_price.present?
-      product.original_price - product.price
-    else
-      0
-    end
-  end
-
-  # Associations
   association :variants, blueprint: VariantBlueprint
   association :reviews, blueprint: ReviewBlueprint
-
-  # Different views for different contexts
-  view :extended do
-    fields :slug, :in_stock
-    excludes :meta_title, :meta_description  # Don't expose SEO fields in basic views
-  end
-
-  view :detailed do
-    include_view :extended
-    fields :meta_title, :meta_description, :low_stock_threshold
-  end
-
-  view :admin do
-    include_view :detailed
-    fields :created_at, :updated_at, :position
-  end
 end
