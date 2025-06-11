@@ -65,7 +65,7 @@ class ProductsController < ApplicationController
   private
   
   def set_product
-    @product = Product.includes(:variants, variants: :options).find_by!(sku: params[:id])
+    @product =  Product.includes(:variants).find_by!(sku: params[:id])
   rescue ActiveRecord::RecordNotFound
     render json: { error: "Product not found" }, status: :not_found
   end
